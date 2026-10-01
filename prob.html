@@ -24,6 +24,7 @@ svg .cell.on{opacity:.6}
 .ident.match .eq{transform:scale(1.4);color:#2f6fdb}
 .ident .cap{font-size:1.15rem;text-align:center;margin-top:.3rem}
 .ident h3{margin-top:0}
+.ident .step{font:.85rem -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;opacity:.75;text-align:center;min-height:2.6em;max-width:260px;margin-top:.2rem}
 @media (prefers-reduced-motion:reduce){svg .cell,.ident .eq{transition:none}}
 </style>
 </head>
@@ -375,11 +376,25 @@ P(at least one head) = 1 - 1/16 = 15/16
   draw();
 
   // Two-set identities. Cell bits: 1 = only A, 2 = only B, 4 = A and B, 8 = neither.
+  // Each side is a list of steps [cellMask, caption]. Cells: 1 = only A, 2 = only B, 4 = A and B, 8 = neither.
+  var nA=bars(1,'A'),nB=bars(1,'B');
   var IDS=[
-    {t:'De Morgan, union',  l:bars(1,'A &cup; B'),                 lc:8,  r:bars(1,'A')+' &cap; '+bars(1,'B'), rc:8},
-    {t:'De Morgan, intersection', l:bars(1,'A &cap; B'),           lc:11, r:bars(1,'A')+' &cup; '+bars(1,'B'), rc:11},
-    {t:'A set and its complement fill the universe', l:'A &cup; '+bars(1,'A'), lc:15, r:'U', rc:15},
-    {t:'Absorption', l:'A &cap; (A &cup; B)', lc:5, r:'A', rc:5}
+    {t:'De Morgan, union',
+     l:bars(1,'A &cup; B'), r:nA+' &cap; '+nB,
+     L:[[0,'Start with nothing shaded'],[5,'Shade A'],[7,'Add B: everything in A or B'],[8,'Flip it: everything outside A or B']],
+     R:[[0,'Start with nothing shaded'],[10,'Shade everything outside A'],[9,'Now everything outside B instead'],[8,'Keep only what is outside both']]},
+    {t:'De Morgan, intersection',
+     l:bars(1,'A &cap; B'), r:nA+' &cup; '+nB,
+     L:[[0,'Start with nothing shaded'],[5,'Shade A'],[4,'Keep only the part also in B: A and B'],[11,'Flip it: everything except A and B']],
+     R:[[0,'Start with nothing shaded'],[10,'Shade everything outside A'],[11,'Add everything outside B too']]},
+    {t:'A set and its complement fill the universe',
+     l:'A &cup; '+nA, r:'U',
+     L:[[0,'Start with nothing shaded'],[5,'Shade A'],[15,'Add everything outside A']],
+     R:[[0,'Start with nothing shaded'],[15,'The whole universe']]},
+    {t:'Absorption',
+     l:'A &cap; (A &cup; B)', r:'A',
+     L:[[0,'Start with nothing shaded'],[7,'Shade A or B'],[5,'Keep only the part that is also in A']],
+     R:[[0,'Start with nothing shaded'],[5,'Shade A']]}
   ];
   var NS='http://www.w3.org/2000/svg',uid=0;
   function mk(tag,attrs,parent){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
@@ -408,26 +423,38 @@ P(at least one head) = 1 - 1/16 = 15/16
     return {svg:svg,set:function(mask){for(var k in cells)cells[k].classList.toggle('on',(mask&k)>0);}};
   }
   var host=document.getElementById('idents');
+  var STEP=1400;
   IDS.forEach(function(it){
     var card=document.createElement('div');card.className='ident';
-    card.innerHTML='<h3>'+it.t+'</h3><div class="ident-grid"><div class="L"><div class="cap">'+it.l+'</div></div><div class="eq" aria-hidden="true">=</div><div class="R"><div class="cap">'+it.r+'</div></div></div><p><button class="ctl">Replay</button></p>';
+    card.innerHTML='<h3>'+it.t+'</h3><div class="ident-grid"><div class="L"><div class="cap">'+it.l+'</div><div class="step" aria-live="polite"></div></div><div class="eq" aria-hidden="true">=</div><div class="R"><div class="cap">'+it.r+'</div><div class="step" aria-live="polite"></div></div></div><p><button class="ctl">Replay</button></p>';
     var L=venn('#2f6fdb','Left side of the identity'),R=venn('#e0792b','Right side of the identity');
-    card.querySelector('.L').insertBefore(L.svg,card.querySelector('.L .cap'));
-    card.querySelector('.R').insertBefore(R.svg,card.querySelector('.R .cap'));
+    var lq=card.querySelector('.L'),rq=card.querySelector('.R');
+    lq.insertBefore(L.svg,lq.querySelector('.cap'));
+    rq.insertBefore(R.svg,rq.querySelector('.cap'));
+    var lStep=lq.querySelector('.step'),rStep=rq.querySelector('.step');
+    function show(v,el,st){v.set(st[0]);el.textContent=st[1];}
     var timers=[];
+    function at(ms,fn){timers.push(setTimeout(fn,ms));}
     function play(){
       timers.forEach(clearTimeout);timers=[];
-      card.classList.remove('match');L.set(0);R.set(0);
-      timers.push(setTimeout(function(){L.set(it.lc);},150));
-      timers.push(setTimeout(function(){R.set(it.rc);},1200));
-      timers.push(setTimeout(function(){card.classList.add('match');},2100));
+      card.classList.remove('match');
+      show(L,lStep,it.L[0]);show(R,rStep,it.R[0]);
+      var t=500;
+      it.L.slice(1).forEach(function(st){var x=st;at(t,function(){show(L,lStep,x);});t+=STEP;});
+      t+=500;
+      it.R.slice(1).forEach(function(st){var x=st;at(t,function(){show(R,rStep,x);});t+=STEP;});
+      at(t+300,function(){card.classList.add('match');});
+    }
+    function finish(){
+      show(L,lStep,it.L[it.L.length-1]);show(R,rStep,it.R[it.R.length-1]);
+      card.classList.add('match');
     }
     card.querySelector('button').onclick=play;
     host.appendChild(card);
     var seen=false;
     if('IntersectionObserver' in window){
       new IntersectionObserver(function(es,o){if(es[0].isIntersecting&&!seen){seen=true;play();o.disconnect();}},{threshold:.5}).observe(card);
-    }else{L.set(it.lc);R.set(it.rc);card.classList.add('match');}
+    }else{finish();}
   });
 })();
 </script>
