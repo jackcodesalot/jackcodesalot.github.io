@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Git Workflow</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <p><a href="ref.html">&larr; Reference Docs</a></p>
+
+    <h1>Git Workflow</h1>
+
+    <p>
+        A simple workflow for developing a website locally with MAMP,
+        tracking changes with Git, and storing the project on GitHub.
+    </p>
+
+    <hr>
+
+    <h2>1. Your Local Project</h2>
+
+    <p>
+        Your website lives on your computer, usually inside your MAMP
+        <code>htdocs</code> folder.
+    </p>
+
+    <pre>
+/Applications/MAMP/htdocs/my-project/
+
+my-project/
+├── index.php
+├── css/
+├── js/
+├── images/
+└── includes/
+    </pre>
+
+    <p>
+        MAMP runs the website locally so you can test it in your browser.
+    </p>
+
+    <pre>
+http://localhost:8888/my-project/
+    </pre>
+
+    <hr>
+
+    <h2>2. Git</h2>
+
+    <p>
+        Git keeps track of changes to your project.
+    </p>
+
+    <p>Check the current status:</p>
+
+    <pre>
+git status
+    </pre>
+
+    <p>See what you've changed:</p>
+
+    <pre>
+git diff
+    </pre>
+
+    <hr>
+
+    <h2>3. Get the Latest Code</h2>
+
+    <p>
+        Before starting work, update your local copy.
+    </p>
+
+    <pre>
+git checkout main
+git pull origin main
+    </pre>
+
+    <hr>
+
+    <h2>4. Create a Branch</h2>
+
+    <p>
+        Create a separate branch for the feature or change you're working on.
+    </p>
+
+    <pre>
+git checkout -b feature/contact-form
+    </pre>
+
+    <p>Examples:</p>
+
+    <pre>
+feature/login
+feature/new-homepage
+fix/mobile-menu
+fix/contact-form
+    </pre>
+
+    <hr>
+
+    <h2>5. Develop with MAMP</h2>
+
+    <p>
+        Make your changes to the project and test them using MAMP.
+    </p>
+
+    <ol>
+        <li>Edit your files.</li>
+        <li>Run the site through MAMP.</li>
+        <li>Test the changes in your browser.</li>
+        <li>Fix any problems.</li>
+        <li>Repeat until everything works.</li>
+    </ol>
+
+    <hr>
+
+    <h2>6. Stage Your Changes</h2>
+
+    <p>
+        Once you're happy with your changes:
+    </p>
+
+    <pre>
+git add .
+    </pre>
+
+    <p>
+        Or add individual files:
+    </p>
+
+    <pre>
+git add index.php
+git add css/style.css
+    </pre>
+
+    <hr>
+
+    <h2>7. Commit</h2>
+
+    <p>
+        Create a snapshot of your changes.
+    </p>
+
+    <pre>
+git commit -m "Add contact form"
+    </pre>
+
+    <p>
+        Try to make commit messages describe what you changed.
+    </p>
+
+    <hr>
+
+    <h2>8. Push to GitHub</h2>
+
+    <p>
+        Send your branch to GitHub.
+    </p>
+
+    <pre>
+git push -u origin feature/contact-form
+    </pre>
+
+    <hr>
+
+    <h2>9. Pull Request</h2>
+
+    <p>
+        Go to GitHub and create a Pull Request from your feature branch
+        into <code>main</code>.
+    </p>
+
+    <p>
+        After the changes are reviewed, the branch can be merged into
+        <code>main</code>.
+    </p>
+
+    <hr>
+
+    <h2>10. Update Your Local Main Branch</h2>
+
+    <p>
+        After the Pull Request is merged:
+    </p>
+
+    <pre>
+git checkout main
+git pull origin main
+    </pre>
+
+    <hr>
+
+    <h2>The Basic Workflow</h2>
+
+    <pre>
+MAMP
+  ↓
+Develop locally
+  ↓
+Test
+  ↓
+git status
+  ↓
+git add .
+  ↓
+git commit
+  ↓
+git push
+  ↓
+GitHub
+  ↓
+Pull Request
+  ↓
+Merge into main
+  ↓
+git pull
+    </pre>
+
+    <hr>
+
+    <h2>Common Commands</h2>
+
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Command</th>
+            <th>What it does</th>
+        </tr>
+
+        <tr>
+            <td><code>git status</code></td>
+            <td>Shows changed files</td>
+        </tr>
+
+        <tr>
+            <td><code>git pull</code></td>
+            <td>Gets changes from GitHub</td>
+        </tr>
+
+        <tr>
+            <td><code>git checkout -b branch-name</code></td>
+            <td>Creates a new branch</td>
+        </tr>
+
+        <tr>
+            <td><code>git add .</code></td>
+            <td>Stages changes</td>
+        </tr>
+
+        <tr>
+            <td><code>git commit -m "message"</code></td>
+            <td>Saves a snapshot</td>
+        </tr>
+
+        <tr>
+            <td><code>git push</code></td>
+            <td>Sends changes to GitHub</td>
+        </tr>
+
+        <tr>
+            <td><code>git diff</code></td>
+            <td>Shows exactly what changed</td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h2>Important</h2>
+
+    <p>
+        Do not commit passwords, API keys, database credentials, or other
+        sensitive information.
+    </p>
+
+    <p>
+        A typical project setup is:
+    </p>
+
+    <pre>
+MAMP
+ ↓
+Local website
+ ↓
+Git
+ ↓
+GitHub
+ ↓
+Pull Request
+ ↓
+main
+    </pre>
+
+</body>
+</html>

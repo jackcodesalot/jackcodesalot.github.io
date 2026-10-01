@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Logic and Probability</title>
+    <link rel="stylesheet" href="style.css">
+<style>
+/* Logic section: self-contained so it works with your existing style.css */
+#logic .lead{max-width:60ch}
+.b{display:inline-block;border-top:.09em solid currentColor;padding-top:.06em;line-height:1}
+.venn-demo,.ident{margin:1.2rem 0;padding:1rem;border:1px solid rgba(128,128,128,.35)}
+.venn-demo svg,.ident svg{width:100%;max-width:260px;height:auto;display:block}
+svg .outline{fill:none;stroke:currentColor;stroke-width:1.5}
+svg .lbl{fill:currentColor;font:600 15px Georgia,serif}
+svg .cell{opacity:0;transition:opacity .7s ease}
+svg .cell.on{opacity:.6}
+.venn-demo .expr{font-size:1.6rem;margin:.6rem 0 .2rem;min-height:2.4rem}
+.venn-demo .say{margin:0 0 .8rem;min-height:1.4em}
+.ctl{font:inherit;padding:.35rem .8rem;margin-right:.5rem;cursor:pointer;border:1px solid currentColor;background:transparent;color:inherit}
+.ctl:focus-visible{outline:3px solid #2f6fdb;outline-offset:2px}
+.ident-grid{display:flex;flex-wrap:wrap;align-items:center;gap:.8rem}
+.ident-grid .eq{font-size:2rem;transition:transform .5s,color .5s}
+.ident.match .eq{transform:scale(1.4);color:#2f6fdb}
+.ident .cap{font-size:1.15rem;text-align:center;margin-top:.3rem}
+.ident h3{margin-top:0}
+@media (prefers-reduced-motion:reduce){svg .cell,.ident .eq{transition:none}}
+</style>
+</head>
+
+<body>
+
+    <p><a href="ref.html">&larr; Reference Docs</a></p>
+
+    <h1>Logic and Probability</h1>
+
+    <p>
+        Sets as pictures, then the core counting tools behind probability:
+        the multiplication principle, permutations, and combinations,
+        followed by worked examples and practice problems.
+    </p>
+
+    <hr>
+
+    <h2>Logic: Sets as Pictures</h2>
+
+    <div id="logic">
+  <p class="lead">Sets as pictures. The bar over a set means everything in the universe <em>outside</em> it. Put a bar over a bar and you are back where you started.</p>
+
+  <div class="venn-demo" id="demo">
+    <svg viewBox="0 0 240 150" role="img" aria-label="Venn diagram of set A inside a universe">
+      <path id="dA" class="cell" style="fill:#2f6fdb" d="M160 75a40 40 0 1 0 -80 0a40 40 0 1 0 80 0Z"/>
+      <path id="dC" class="cell" style="fill:#e0792b" fill-rule="evenodd" d="M0 0H240V150H0Z M160 75a40 40 0 1 0 -80 0a40 40 0 1 0 80 0Z"/>
+      <rect class="outline" x="1" y="1" width="238" height="148"/>
+      <circle class="outline" cx="120" cy="75" r="40"/>
+      <text class="lbl" x="113" y="80">A</text>
+    </svg>
+    <div class="expr" id="expr" aria-live="polite"></div>
+    <p class="say" id="say"></p>
+    <button class="ctl" id="add">Add a bar</button><button class="ctl" id="reset">Reset</button>
+  </div>
+
+  <div id="idents"></div>
+    </div>
+
+    <hr>
+
+    <h2>1. Basic Probability</h2>
+
+    <p>
+        When every outcome is equally likely, the probability of an event is
+        the number of favorable outcomes divided by the total number of
+        outcomes.
+    </p>
+
+    <pre>
+P(E) = (favorable outcomes) / (total outcomes)
+
+0 &le; P(E) &le; 1
+    </pre>
+
+    <p>The complement rule is often the fastest route:</p>
+
+    <pre>
+P(not E) = 1 - P(E)
+    </pre>
+
+    <hr>
+
+    <h2>2. The Multiplication Principle</h2>
+
+    <p>
+        If a task has several steps, and step 1 can be done in
+        <code>n<sub>1</sub></code> ways, step 2 in <code>n<sub>2</sub></code>
+        ways, and so on, then the whole task can be done in:
+    </p>
+
+    <pre>
+n1 &times; n2 &times; ... &times; nk  ways
+    </pre>
+
+    <hr>
+
+    <h2>3. Factorials</h2>
+
+    <pre>
+n! = n &times; (n-1) &times; (n-2) &times; ... &times; 2 &times; 1
+
+0! = 1
+    </pre>
+
+    <p>
+        <code>n!</code> is the number of ways to arrange <code>n</code>
+        distinct objects in a line.
+    </p>
+
+    <hr>
+
+    <h2>4. Permutations (order matters)</h2>
+
+    <p>
+        The number of ways to pick and arrange <code>r</code> objects out of
+        <code>n</code> distinct objects:
+    </p>
+
+    <pre>
+P(n, r) = n! / (n - r)!
+    </pre>
+
+    <p>
+        <strong>Permutations with repeated objects.</strong> If some objects
+        are identical, divide out the repeats:
+    </p>
+
+    <pre>
+n! / (a! &times; b! &times; c! ...)
+    </pre>
+
+    <p>
+        <strong>Circular arrangements.</strong> Arranging <code>n</code>
+        distinct objects around a circle (rotations count as the same):
+    </p>
+
+    <pre>
+(n - 1)!
+    </pre>
+
+    <hr>
+
+    <h2>5. Combinations (order does not matter)</h2>
+
+    <p>
+        The number of ways to choose <code>r</code> objects out of
+        <code>n</code>, ignoring order:
+    </p>
+
+    <pre>
+C(n, r) = n! / ( r! &times; (n - r)! )
+    </pre>
+
+    <p>
+        Note that <code>C(n, r) = C(n, n - r)</code>, and
+        <code>P(n, r) = C(n, r) &times; r!</code>.
+    </p>
+
+    <hr>
+
+    <h2>Quick Reference</h2>
+
+    <table>
+        <tr>
+            <th>Situation</th>
+            <th>Use</th>
+        </tr>
+        <tr>
+            <td>Arrange all <code>n</code> distinct items</td>
+            <td><code>n!</code></td>
+        </tr>
+        <tr>
+            <td>Choose and arrange <code>r</code> of <code>n</code></td>
+            <td><code>P(n, r)</code></td>
+        </tr>
+        <tr>
+            <td>Choose <code>r</code> of <code>n</code>, order irrelevant</td>
+            <td><code>C(n, r)</code></td>
+        </tr>
+        <tr>
+            <td>Arrange with identical items</td>
+            <td><code>n! / (a! b! ...)</code></td>
+        </tr>
+        <tr>
+            <td>Arrange around a circle</td>
+            <td><code>(n - 1)!</code></td>
+        </tr>
+        <tr>
+            <td>"At least one"</td>
+            <td><code>1 - P(none)</code></td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h2>Worked Examples</h2>
+
+    <h3>Example 1: Arranging books</h3>
+    <p>In how many ways can 5 different books be placed on a shelf?</p>
+    <pre>
+5! = 5 &times; 4 &times; 3 &times; 2 &times; 1 = 120
+    </pre>
+
+    <h3>Example 2: A race</h3>
+    <p>
+        Eight runners compete. How many ways can gold, silver, and bronze be
+        awarded? Order matters, so use a permutation.
+    </p>
+    <pre>
+P(8, 3) = 8 &times; 7 &times; 6 = 336
+    </pre>
+
+    <h3>Example 3: Repeated letters</h3>
+    <p>How many distinct arrangements of the letters in MISSISSIPPI are there?</p>
+    <p>
+        There are 11 letters: M &times; 1, I &times; 4, S &times; 4, P &times; 2.
+    </p>
+    <pre>
+11! / (1! &times; 4! &times; 4! &times; 2!) = 39,916,800 / 1,152 = 34,650
+    </pre>
+
+    <h3>Example 4: A committee</h3>
+    <p>
+        How many ways can a committee of 3 be chosen from 10 people? Order
+        does not matter, so use a combination.
+    </p>
+    <pre>
+C(10, 3) = (10 &times; 9 &times; 8) / (3 &times; 2 &times; 1) = 120
+    </pre>
+
+    <h3>Example 5: Coin flips</h3>
+    <p>What is the probability of getting exactly 2 heads in 3 fair coin flips?</p>
+    <pre>
+Total outcomes     = 2^3 = 8
+Favorable outcomes = C(3, 2) = 3
+
+P = 3/8
+    </pre>
+
+    <h3>Example 6: Drawing cards</h3>
+    <p>
+        Two cards are drawn from a standard 52-card deck without replacement.
+        What is the probability that both are aces?
+    </p>
+    <pre>
+Favorable = C(4, 2)  = 6
+Total     = C(52, 2) = 1,326
+
+P = 6/1326 = 1/221
+    </pre>
+
+    <hr>
+
+    <h2>Practice Problems</h2>
+
+    <p>
+        Try each one first. Click "Show answer" to check your work.
+    </p>
+
+    <h3>Problem 1</h3>
+    <p>
+        A license plate has 3 letters followed by 3 digits. Letters and
+        digits may repeat. How many plates are possible?
+    </p>
+    <details>
+        <summary>Show answer</summary>
+        <pre>
+26^3 &times; 10^3 = 17,576 &times; 1,000 = 17,576,000
+        </pre>
+    </details>
+
+    <h3>Problem 2</h3>
+    <p>How many distinct arrangements are there of the letters in STONY?</p>
+    <details>
+        <summary>Show answer</summary>
+        <pre>
+5! = 120
+        </pre>
+    </details>
+
+    <h3>Problem 3</h3>
+    <p>How many distinct arrangements are there of the letters in BROOKLYN?</p>
+    <details>
+        <summary>Show answer</summary>
+        <pre>
+8! / 2! = 40,320 / 2 = 20,160
+        </pre>
+    </details>
+
+    <h3>Problem 4</h3>
+    <p>In how many ways can 4 students be chosen from a group of 12?</p>
+    <details>
+        <summary>Show answer</summary>
+        <pre>
+C(12, 4) = 495
+        </pre>
+    </details>
+
+    <h3>Problem 5</h3>
+    <p>Two fair dice are rolled. What is the probability that the sum is 7?</p>
+    <details>
+        <summary>Show answer</summary>
+        <pre>
+Favorable: (1,6) (2,5) (3,4) (4,3) (5,2) (6,1) = 6
+Total: 36
+
+P = 6/36 = 1/6
+        </pre>
+    </details>
+
+    <h3>Problem 6</h3>
+    <p>
+        A bag holds 5 red and 3 blue marbles. Two are drawn without
+        replacement. What is the probability that both are red?
+    </p>
+    <details>
+        <summary>Show answer</summary>
+        <pre>
+C(5, 2) / C(8, 2) = 10 / 28 = 5/14
+        </pre>
+    </details>
+
+    <h3>Problem 7</h3>
+    <p>In how many ways can 6 people sit around a circular table?</p>
+    <details>
+        <summary>Show answer</summary>
+        <pre>
+(6 - 1)! = 5! = 120
+        </pre>
+    </details>
+
+    <h3>Problem 8</h3>
+    <p>
+        A fair coin is flipped 4 times. What is the probability of getting
+        at least one head?
+    </p>
+    <details>
+        <summary>Show answer</summary>
+        <pre>
+P(no heads) = 1/16
+
+P(at least one head) = 1 - 1/16 = 15/16
+        </pre>
+    </details>
+
+<script>
+(function(){
+  // Bar notation only: each bar is a nested .b span (a bar over a bar stacks).
+  function bars(n,inner){var s=inner;for(var i=0;i<n;i++)s='<span class="b">'+s+'</span>';return s;}
+
+  // Demo: A, then bar A, then bar bar A = A
+  var n=0,MAX=4;
+  var expr=document.getElementById('expr'),say=document.getElementById('say');
+  var dA=document.getElementById('dA'),dC=document.getElementById('dC');
+  var add=document.getElementById('add');
+  function draw(){
+    var odd=n%2===1;
+    expr.innerHTML=bars(n,'A')+(n>0?' = '+(odd?bars(1,'A'):'A'):'');
+    dA.classList.toggle('on',!odd);
+    dC.classList.toggle('on',odd);
+    say.textContent=n===0?'A is the blue region.':
+      odd?'One bar flips to everything outside A.':
+      'The bars cancel in pairs: flipping twice lands back on A.';
+    add.disabled=n>=MAX;
+  }
+  add.onclick=function(){if(n<MAX){n++;draw();}};
+  document.getElementById('reset').onclick=function(){n=0;draw();};
+  draw();
+
+  // Two-set identities. Cell bits: 1 = only A, 2 = only B, 4 = A and B, 8 = neither.
+  var IDS=[
+    {t:'De Morgan, union',  l:bars(1,'A &cup; B'),                 lc:8,  r:bars(1,'A')+' &cap; '+bars(1,'B'), rc:8},
+    {t:'De Morgan, intersection', l:bars(1,'A &cap; B'),           lc:11, r:bars(1,'A')+' &cup; '+bars(1,'B'), rc:11},
+    {t:'A set and its complement fill the universe', l:'A &cup; '+bars(1,'A'), lc:15, r:'U', rc:15},
+    {t:'Absorption', l:'A &cap; (A &cup; B)', lc:5, r:'A', rc:5}
+  ];
+  var NS='http://www.w3.org/2000/svg',uid=0;
+  function mk(tag,attrs,parent){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+  function venn(color,label){
+    var id='v'+(uid++),svg=mk('svg',{viewBox:'0 0 240 150',role:'img','aria-label':label});
+    var d=mk('defs',{},svg);
+    function mask(name,holes){
+      var m=mk('mask',{id:id+name,maskUnits:'userSpaceOnUse',x:0,y:0,width:240,height:150},d);
+      mk('rect',{x:0,y:0,width:240,height:150,fill:'#fff'},m);
+      holes.forEach(function(c){mk('circle',{cx:c,cy:75,r:45,fill:'#000'},m);});
+    }
+    mask('mB',[145]);mask('mA',[95]);mask('mN',[95,145]);
+    var cp=mk('clipPath',{id:id+'cB'},d);mk('circle',{cx:145,cy:75,r:45},cp);
+    var cells={
+      1:mk('circle',{cx:95,cy:75,r:45,mask:'url(#'+id+'mB)'},svg),
+      2:mk('circle',{cx:145,cy:75,r:45,mask:'url(#'+id+'mA)'},svg),
+      4:mk('circle',{cx:95,cy:75,r:45,'clip-path':'url(#'+id+'cB)'},svg),
+      8:mk('rect',{x:0,y:0,width:240,height:150,mask:'url(#'+id+'mN)'},svg)
+    };
+    for(var k in cells){cells[k].setAttribute('class','cell');cells[k].style.fill=color;}
+    mk('rect',{'class':'outline',x:1,y:1,width:238,height:148},svg);
+    mk('circle',{'class':'outline',cx:95,cy:75,r:45},svg);
+    mk('circle',{'class':'outline',cx:145,cy:75,r:45},svg);
+    var a=mk('text',{'class':'lbl',x:68,y:80},svg);a.textContent='A';
+    var b=mk('text',{'class':'lbl',x:166,y:80},svg);b.textContent='B';
+    return {svg:svg,set:function(mask){for(var k in cells)cells[k].classList.toggle('on',(mask&k)>0);}};
+  }
+  var host=document.getElementById('idents');
+  IDS.forEach(function(it){
+    var card=document.createElement('div');card.className='ident';
+    card.innerHTML='<h3>'+it.t+'</h3><div class="ident-grid"><div class="L"><div class="cap">'+it.l+'</div></div><div class="eq" aria-hidden="true">=</div><div class="R"><div class="cap">'+it.r+'</div></div></div><p><button class="ctl">Replay</button></p>';
+    var L=venn('#2f6fdb','Left side of the identity'),R=venn('#e0792b','Right side of the identity');
+    card.querySelector('.L').insertBefore(L.svg,card.querySelector('.L .cap'));
+    card.querySelector('.R').insertBefore(R.svg,card.querySelector('.R .cap'));
+    var timers=[];
+    function play(){
+      timers.forEach(clearTimeout);timers=[];
+      card.classList.remove('match');L.set(0);R.set(0);
+      timers.push(setTimeout(function(){L.set(it.lc);},150));
+      timers.push(setTimeout(function(){R.set(it.rc);},1200));
+      timers.push(setTimeout(function(){card.classList.add('match');},2100));
+    }
+    card.querySelector('button').onclick=play;
+    host.appendChild(card);
+    var seen=false;
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(es,o){if(es[0].isIntersecting&&!seen){seen=true;play();o.disconnect();}},{threshold:.5}).observe(card);
+    }else{L.set(it.lc);R.set(it.rc);card.classList.add('match');}
+  });
+})();
+</script>
+
+</body>
+</html>

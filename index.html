@@ -1,293 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Git Workflow</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jack Simon</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <h1>Git Workflow</h1>
+<nav class="side"><a href="#research">Research</a><a href="prob.html">Logic and Probability</a><a href="#passions">Passions</a><a href="#work">Work</a><a href="#labs">Labs</a><a href="ref.html">Reference Docs</a></nav>
+
+<header>
+  <h1>Jack Simon</h1>
+  <p class="tag">Stony Brook University (SBU) &middot; Mathematics &amp; Electrical Engineering</p>
+  <p class="legend"><span class="dot" title="Current"></span>Current</p>
+</header>
+
+<main>
+
+<section id="research">
+  <h2>Research</h2>
+
+  <div class="item">
+    <h3>Scientific Computation</h3>
+    <p>Building insights into physical interactions using computers. This could include building algorithms to manage the backend of simulation engines, analyzing and post-processing physical data, and computing important parameters with computers, etc.</p>
+  </div>
+
+  <div class="item">
+    <h3>Mathematical Modelling</h3>
+    <p>Using physical data to create rigorous models and engines for computing dynamics of real structures. This could include capturing ribonucleic acid (RNA) energetics in simulation, developing algorithms for iterative integration of force field equations, etc.</p>
+  </div>
+
+  <div class="item">
+    <h3>Optimization</h3>
+    <p>Defining a function with some constraints and then optimizing the outputs over some range of values. This is vague, but for me it will generally be applied to machine learning (ML) optimization (hyper-parameter search) and force field parameter optimization (idealized conditions using the Lennard-Jones (LJ) potential, etc.).</p>
+  </div>
+</section>
+
+<section id="passions">
+  <h2>Passions</h2>
+  <div class="item">
+    <h3>STEM-Ploration</h3>
+    <p>Math, science, and I have had an odd relationship. Ebbs and flows have caused said relationship to weaken and strengthen, iteratively. I want to make sure other struggling aspiring scientists and mathematicians are fed with sufficient confidence, information, and opportunities.</p>
+  </div>
+  <div class="item">
+    <h3>Nature</h3>
+    <p>I enjoy slowing down and enjoying my surroundings. Breathing in fresh air and watching deer eat plants. There is great pleasure in slowing down in an excessively fast-paced world.</p>
+  </div>
+</section>
+
+<section id="work">
+  <h2>Work</h2>
+
+  <div class="item">
+    <h3>Panera</h3>
+    <div class="meta"><span class="dot" title="Current"></span>Since January 2026</div>
+    <p>My time to listen to the community, let people speak their mind, and also bake delicious pastries, enjoying knotting the dough or twisting the rack.</p>
+  </div>
+
+  <div class="item">
+    <h3>SBU Athletics Tutoring</h3>
+    <div class="meta"><span class="dot" title="Current"></span>Since September 2026</div>
+    <p>Walking athletes through a range of math problems, motivating and urging them to study the beauty of math.</p>
+  </div>
+
+  <div class="item">
+    <h3>SBU Academic Success and Tutoring Center</h3>
+    <div class="meta"><span class="dot" title="Current"></span>Lead Tutor &middot; Drop-in and Individual Math Tutor</div>
+    <p>Mentor and lead both tutees and co-tutors in their journeys. Help inspire and lead the next generation of STEM-enjoyers.</p>
+  </div>
+
+  <div class="item">
+    <h3>SBU Division of Information Technology (DoIT)</h3>
+    <div class="meta">AI Intern</div>
+    <p>Discerning which state-of-the-art (SOA) large language model (LLM) SBU should and should not use, running a cross-factor analysis.</p>
+  </div>
+</section>
+
+<section id="labs">
+  <h2>Labs</h2>
+
+  <div class="item">
+    <h3>Flynn</h3>
+    <div class="meta"><span class="dot" title="Current"></span>Brookhaven National Laboratory (BNL)</div>
+    <p>ML and deep learning (DL) algorithm development for classification of point-cloud data using both novel (random-walk based for Paris-Lille 3D) and tried (straight-out cross-entropy minimizing segmentation) methods.</p>
+  </div>
+
+  <div class="item">
+    <h3>DeLorenzo</h3>
+    <div class="meta"><span class="dot" title="Current"></span>SBU Psychiatry</div>
+    <p>Running quality control (QC) analysis on actigraphy data, which serves to map daily activity to embolden different contributors to depression.</p>
+  </div>
+
+  <div class="item">
+    <h3>Nagan</h3>
+    <div class="meta"><span class="dot" title="Current"></span>Research Assistant (RA) &middot; Undergraduate Research and Creative Activities (URECA)</div>
+    <ul>
+      <li>Develop CUDA-based algorithms for computing differential solvent accessible surface area (dSASA).</li>
+      <li>Analyze 100k frames of data to highlight the distribution of torsion angles per frame.</li>
+      <li>Actively manage the amber tutorials web page using GitLab.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <h3>Huppert <span class="pill">Upcoming</span></h3>
+    <div class="meta">Brain Image Reconstruction and Affordable Technology Development</div>
+    <ul>
+      <li>Develop algorithms to reconstruct incomplete brain images.</li>
+      <li>Develop affordable electroencephalography (EEG) devices.</li>
+      <li>Couple the two ideas to design affordable and accurate EEGs for assessing damage.</li>
+    </ul>
+  </div>
+</section>
 
-    <p>
-        A simple workflow for developing a website locally with MAMP,
-        tracking changes with Git, and storing the project on GitHub.
-    </p>
+</main>
 
-    <hr>
-
-    <h2>1. Your Local Project</h2>
-
-    <p>
-        Your website lives on your computer, usually inside your MAMP
-        <code>htdocs</code> folder.
-    </p>
-
-    <pre>
-/Applications/MAMP/htdocs/my-project/
-
-my-project/
-├── index.php
-├── css/
-├── js/
-├── images/
-└── includes/
-    </pre>
-
-    <p>
-        MAMP runs the website locally so you can test it in your browser.
-    </p>
-
-    <pre>
-http://localhost:8888/my-project/
-    </pre>
-
-    <hr>
-
-    <h2>2. Git</h2>
-
-    <p>
-        Git keeps track of changes to your project.
-    </p>
-
-    <p>Check the current status:</p>
-
-    <pre>
-git status
-    </pre>
-
-    <p>See what you've changed:</p>
-
-    <pre>
-git diff
-    </pre>
-
-    <hr>
-
-    <h2>3. Get the Latest Code</h2>
-
-    <p>
-        Before starting work, update your local copy.
-    </p>
-
-    <pre>
-git checkout main
-git pull origin main
-    </pre>
-
-    <hr>
-
-    <h2>4. Create a Branch</h2>
-
-    <p>
-        Create a separate branch for the feature or change you're working on.
-    </p>
-
-    <pre>
-git checkout -b feature/contact-form
-    </pre>
-
-    <p>Examples:</p>
-
-    <pre>
-feature/login
-feature/new-homepage
-fix/mobile-menu
-fix/contact-form
-    </pre>
-
-    <hr>
-
-    <h2>5. Develop with MAMP</h2>
-
-    <p>
-        Make your changes to the project and test them using MAMP.
-    </p>
-
-    <ol>
-        <li>Edit your files.</li>
-        <li>Run the site through MAMP.</li>
-        <li>Test the changes in your browser.</li>
-        <li>Fix any problems.</li>
-        <li>Repeat until everything works.</li>
-    </ol>
-
-    <hr>
-
-    <h2>6. Stage Your Changes</h2>
-
-    <p>
-        Once you're happy with your changes:
-    </p>
-
-    <pre>
-git add .
-    </pre>
-
-    <p>
-        Or add individual files:
-    </p>
-
-    <pre>
-git add index.php
-git add css/style.css
-    </pre>
-
-    <hr>
-
-    <h2>7. Commit</h2>
-
-    <p>
-        Create a snapshot of your changes.
-    </p>
-
-    <pre>
-git commit -m "Add contact form"
-    </pre>
-
-    <p>
-        Try to make commit messages describe what you changed.
-    </p>
-
-    <hr>
-
-    <h2>8. Push to GitHub</h2>
-
-    <p>
-        Send your branch to GitHub.
-    </p>
-
-    <pre>
-git push -u origin feature/contact-form
-    </pre>
-
-    <hr>
-
-    <h2>9. Pull Request</h2>
-
-    <p>
-        Go to GitHub and create a Pull Request from your feature branch
-        into <code>main</code>.
-    </p>
-
-    <p>
-        After the changes are reviewed, the branch can be merged into
-        <code>main</code>.
-    </p>
-
-    <hr>
-
-    <h2>10. Update Your Local Main Branch</h2>
-
-    <p>
-        After the Pull Request is merged:
-    </p>
-
-    <pre>
-git checkout main
-git pull origin main
-    </pre>
-
-    <hr>
-
-    <h2>The Basic Workflow</h2>
-
-    <pre>
-MAMP
-  ↓
-Develop locally
-  ↓
-Test
-  ↓
-git status
-  ↓
-git add .
-  ↓
-git commit
-  ↓
-git push
-  ↓
-GitHub
-  ↓
-Pull Request
-  ↓
-Merge into main
-  ↓
-git pull
-    </pre>
-
-    <hr>
-
-    <h2>Common Commands</h2>
-
-    <table border="1" cellpadding="8">
-        <tr>
-            <th>Command</th>
-            <th>What it does</th>
-        </tr>
-
-        <tr>
-            <td><code>git status</code></td>
-            <td>Shows changed files</td>
-        </tr>
-
-        <tr>
-            <td><code>git pull</code></td>
-            <td>Gets changes from GitHub</td>
-        </tr>
-
-        <tr>
-            <td><code>git checkout -b branch-name</code></td>
-            <td>Creates a new branch</td>
-        </tr>
-
-        <tr>
-            <td><code>git add .</code></td>
-            <td>Stages changes</td>
-        </tr>
-
-        <tr>
-            <td><code>git commit -m "message"</code></td>
-            <td>Saves a snapshot</td>
-        </tr>
-
-        <tr>
-            <td><code>git push</code></td>
-            <td>Sends changes to GitHub</td>
-        </tr>
-
-        <tr>
-            <td><code>git diff</code></td>
-            <td>Shows exactly what changed</td>
-        </tr>
-    </table>
-
-    <hr>
-
-    <h2>Important</h2>
-
-    <p>
-        Do not commit passwords, API keys, database credentials, or other
-        sensitive information.
-    </p>
-
-    <p>
-        A typical project setup is:
-    </p>
-
-    <pre>
-MAMP
- ↓
-Local website
- ↓
-Git
- ↓
-GitHub
- ↓
-Pull Request
- ↓
-main
-    </pre>
+<footer><a href="ref.html">Reference Docs &rarr;</a></footer>
 
 </body>
 </html>
